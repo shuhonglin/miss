@@ -8,7 +8,7 @@
             "name": "启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/${workspaceFolderBasename}",
+            "program": "${workspaceFolder}/build/app/${workspaceFolderBasename}",
             "args": [], //指定运行参数
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
