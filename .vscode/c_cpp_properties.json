@@ -4,6 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/app",
                 "${workspaceFolder}/library/include",
                 "${workspaceFolder}/external/mysql-connector-cpp/include",
                 "${workspaceFolder}/external/mysql-connector-cpp/jdbc"

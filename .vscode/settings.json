@@ -3,5 +3,10 @@
         "*.ipp": "cpp",
         "iostream": "cpp",
         "iomanip": "cpp"
-    }
+    },
+    //保存的时候自动格式化
+    "editor.formatOnSave": true,
+    "C_Cpp.autocomplete": "Default",
+    "files.autoSave": "onWindowChange"
+    // "C_Cpp.default.compilerPath": "/bin/g++"
 }
