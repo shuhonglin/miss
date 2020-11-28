@@ -2,7 +2,13 @@
 #include <iomanip>
 // #include "../../external/mysql-connector-cpp/include/mysqlx/xdevapi.h"
 #include "entity/book.h"
-#include "mysqlx/xdevapi.h"
+#include "../build/include/jdbc/mysql_driver.h"
+#include "../build/include/jdbc/mysql_connection.h"
+#include "../build/include/jdbc/cppconn/driver.h"
+#include "../build/include/jdbc/cppconn/statement.h"
+#include "../build/include/jdbc/cppconn/prepared_statement.h"
+#include "../build/include/jdbc/cppconn/metadata.h"
+#include "../build/include/jdbc/cppconn/exception.h"
 
 void testMysql();
 
@@ -24,65 +30,32 @@ int main(int, char **)
 void testMysql()
 {
     using namespace std;
-    using namespace ::mysqlx;
-    try
-    {
-        // mysqlx://user:pwd@host:port/db?ssl-mode=disabled
-        const char *url = "mysqlx://root:123456@192.168.0.10:33060?ssl-mode=disabled";
-        cout << "Creating session on " << url << " ..." << endl;
-        Session sess(url);
-        //         {
-        //             /*
-        //     TODO: Only working with server version 8
-        //   */
-        //             RowResult res = sess.sql("show variables like 'version'").execute();
-        //             std::stringstream version;
-        //             version << res.fetchOne().get(1).get<string>();
-        //             int major_version;
-        //             version >> major_version;
-        //             if (major_version < 8)
-        //             {
-        //                 cout << "Version: " << major_version << " Done!" << endl;
-        //                 return 0;
-        //             }
-        //         }
-        SqlResult rset = sess.sql("SELECT * FROM zgame.tb_player LIMIT 20").execute();
+    sql::mysql::MySQL_Driver *driver = 0;
+    sql::Connection *conn = 0;
 
-        cout << setiosflags(ios::left) << setw(14) << "id" << resetiosflags(ios::left) // 用完之后清除
-             << setiosflags(ios::right) << setw(9) << "name" << setw(12) << "createtime" << setw(8) << "level"
+    // try
+    // {
+    driver = sql::mysql::get_mysql_driver_instance();
+    conn = driver->connect("tcp://127.0.0.1:3306/zgame", "hackway", "0663");
+    cout << "connect success" << endl;
+    // }
+    // catch (...)
+    // {
+    //     cout << "connect fail" << endl;
+    //     return;
+    // }
+    sql::Statement *stat = conn->createStatement();
+    // stat->execute("set names 'gbk'");
+    sql::ResultSet *res;
+    res = stat->executeQuery("SELECT * FROM tb_player");
+    while (res->next())
+    {
+        cout << setiosflags(ios::left) << setw(14) << res->getString("id") << resetiosflags(ios::left)
+             << setiosflags(ios::right) << setw(9) << res->getString("name") << setw(12) << res->getString("createTime") << setw(8) << res->getString("level")
              << resetiosflags(ios::right) << endl;
-        cout << "----------------------------------------" << endl;
-        Row row;
-        while (rset.hasData())
-        {
-            row = rset.fetchOne();
-            if (row.isNull())
-            {
-                cout << "row is null" << endl;
-                break;
-            }
-            cout << setiosflags(ios::left) << setw(14) << row.get(0).get<long>() << resetiosflags(ios::left)
-                 << setiosflags(ios::right) << setw(9) << row.get(2).get<std::string>() << setw(12) << row.get(4).get<int>() << setw(8) << row.get(5).get<int>()
-                 << resetiosflags(ios::right) << endl;
-            // cout << "         id: " << row.get(0).get<long>() << endl;
-            // cout << "       name: " << row.get(2).get<std::string>() << endl;
-            // cout << " createtime: " << row.get(4).get<int>() << endl;
-            // cout << "      level: " << row.get(5).get<int>() << endl;
-        }
-        cout << "----------------------------------------" << endl;
-        sess.close();
-        cout << "Done!" << endl;
     }
-    catch (const mysqlx::Error &err)
+    if (conn != 0)
     {
-        cout << "ERROR: " << err << endl;
-    }
-    catch (std::exception &ex)
-    {
-        cout << "STD EXCEPTION: " << ex.what() << endl;
-    }
-    catch (const char *ex)
-    {
-        cout << "EXCEPTION: " << ex << endl;
+        delete conn;
     }
 }

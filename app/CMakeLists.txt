@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.18)
 project(CalApp 
     VERSION 1.0
     DESCRIPTION "My fancy calculator app.")
@@ -11,8 +11,9 @@ target_sources(miss PRIVATE "main.cpp" )
 target_link_libraries(miss
   PRIVATE 
     MyCalc::basicmath
-    Boost::program_options 
-    connector
+    Boost::program_options
+    # connector  #mysqlx api, use for mysql document, need mysql version larger than 5.7.xx
+    connector-jdbc
     entity
 )
 

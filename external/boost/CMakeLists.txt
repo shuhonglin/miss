@@ -1,10 +1,10 @@
-set(BOOST_VERSION 1.53.0)
+#set(BOOST_VERSION 1.53.0)
 # https://zhuanlan.zhihu.com/p/50829542
 # settings for finding correct Boost libraries.
 set(Boost_USE_STATIC_LIBS FALSE)
 set(Boost_USE_MULTITHREADED TRUE)
 set(Boost_USE_STATIC_RUNTIME FALSE)
-set(Boost_ADDITIONAL_VERSIONS "${BOOST_VERSION}")
+#set(Boost_ADDITIONAL_VERSIONS "${BOOST_VERSION}")
 set(Boost_COMPILER "-gcc")
 
 # search for Boost libraries

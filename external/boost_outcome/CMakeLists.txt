@@ -12,7 +12,7 @@ add_library(Reviewed_Boost.outcome INTERFACE IMPORTED GLOBAL)
 # Store include search-path containing headers
 # of "Boost.Outcome".
 target_include_directories(Reviewed_Boost.outcome SYSTEM 
-    INTERFACE /root/develop/boost-outcome/include)
+    INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # Require at least compiling with C++11.
 target_compile_features(Reviewed_Boost.outcome 
     INTERFACE cxx_std_11)
