@@ -10,14 +10,18 @@ int main(int, char **)
 {
     int a = 4, b = 5;
     int mix = 4 * 5;
-    testMysql();
+    // testMysql();
     std::cout << "Hello, world!\n"
               << mix << std::endl;
 
     const std::string isbn = "xxxx";
     const std::string name = "c++ primer";
-    Book book = Book(name, isbn);
-    book.printBook();
+    Book *book = new ChineseBook(name, isbn, 20);
+    // book.printBook();
+    std::cout<<*book<<std::endl;
+    book->printBook();
+    delete book;
+    std::cout<<"run over!!!"<<std::endl;
     return 0;
 }
 
